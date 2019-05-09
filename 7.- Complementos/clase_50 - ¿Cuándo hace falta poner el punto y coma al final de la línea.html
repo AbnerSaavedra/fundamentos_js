@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Clase 50 - ¿Cuándo hace falta poner el punto y coma al final de la línea?</title>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <script>
+
+        console.log('Hola mundo')
+        ;[1, 2, 3].forEach(n => console.log(n * 2))//Al comenzar la próxima línea con un array
+
+        const nombre = 'Abner'
+        console.log(`Hola mi nombre es ${nombre}`)
+        ;`${nombre} es un desarrollador`
+
+        function calcularDoble(numero){
+
+            return {original: numero, doble: numero *2} //Después del return si hay un salto de linea JavaScript lo tama como un punto y coma.
+
+        }
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Clase 44 - ¿Hace cuántos días naciste?</title>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <script>
+
+    function diasEntreFechas(fecha1, fecha2) {
+        
+        const UN_DIA = 1000 * 60 * 60 * 24 // miliseg * seg * min * hora
+        const DIFERENCIA = Math.abs(fecha1 - fecha2)//Para obtener la difencia absoluta
+
+        return Math.floor(DIFERENCIA /UN_DIA)
+    }
+
+    const hoy = new Date()
+    const nacimiento = new Date(1991, 6, 17)
+    </script>
+</body>
+
+</html>

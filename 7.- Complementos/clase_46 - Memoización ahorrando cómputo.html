@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Clase 45 - Memoización: ahorrando cómputo</title>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <script>
+
+    /*
+    
+    Factorial:
+    ==========
+
+    !7 = 7 * 6 * 5 * 4 * 3 * 2 * 1 = 5040
+    !14 = 14 * 13 * 12 * 11 * 10 * 9 * 8 * 7 * 6 * 5 * 4 * 3 * 2 * 1 = 14 * 13 * 12 * 11 * 10 * 9 * 8 * !7
+
+    */
+    function factorial(n) {
+    
+    if (!this.cache) { // Habilitar la cache para this
+
+        this.cache = {}
+    }
+
+    //debugger
+    if (this.cache[n]) {
+
+        return this.cache[n]
+    }
+
+        if (n === 1) {// Caso base
+
+            return 1
+        }
+
+        //return n * factorial(n-1)
+
+        this.cache[n] = n * factorial(n - 1)
+        //debugger
+        return this.cache[n]
+    }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Clase 28 - Cómo funciona el tiempo en JavaScript</title>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <script>
+
+    	/*console.log('a')
+    	setTimeout( () => console.log('b'), 0) //Entra a la cola de tareas, mientras lo demás es la ejecución pricipal de nuestro programa
+    	console.log('c')*/
+
+    	setTimeout( () => console.log('d'), 2000)// Lo que se ejecuta dentro del setTimeout no se ejecuta en el flujo principal del programa, pues se esta definiendo un tiempo de ejecución, es decir su ejecución es asincrona.
+
+    	for (var i = 0; i < 1000000000; i++) {
+
+    	}
+    </script>
+</body>
+
+</html>

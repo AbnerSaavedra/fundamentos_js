@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Clase 45 - Funciones recursivas</title>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <script>
+
+    /*
+    
+    13 / 4     
+
+    13 - 4 = 9      1 
+    9  - 4 = 5      1
+    5  - 4 = 1      1
+    1 -  4 = -3     0//Caso no admitido
+
+    */
+    function divisionEntera(dividendo, divisor) {
+        
+        if ( dividendo < divisor ) {//Caso base: Es la condición que se debe cumplir para finalizar el algoritmo
+
+            return 0
+        }
+
+            return 1 + divisionEntera( dividendo - divisor, divisor )//Caso recursivo: Las instrucciones que ejecutan tantas veces que no se cumpla el caso base.
+    }
+    </script>
+</body>
+
+</html>

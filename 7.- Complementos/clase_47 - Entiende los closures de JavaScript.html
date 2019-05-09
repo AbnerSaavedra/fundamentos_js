@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Clase 47 - Entiende los closures de JavaScript</title>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <script>
+
+    function crearSaludo(finalDeFrase){
+
+        return function (nombre) {
+            
+        console.log(`Hola ${nombre} ${finalDeFrase}`)
+        }
+    }
+        const saludoArgentino = crearSaludo('che')
+        const saludoMexicano = crearSaludo('güey')
+        const saludoVenezolano = crearSaludo('pana')
+
+        saludoArgentino('Abner')//Hola Abner che
+        saludoMexicano('Abner')//Hola Abner güey
+        saludoVenezolano('Abner')//Hola Abner pana
+
+    </script>
+</body>
+
+</html>

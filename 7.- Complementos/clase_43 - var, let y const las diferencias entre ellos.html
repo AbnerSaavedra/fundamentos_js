@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr">
+
+<head>
+    <title>Clase 43 - var, let y const las diferencias entre ellos</title>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <script>
+    var abner = {
+
+        nombre: 'Abner',
+        apellido: 'Saavedra',
+        edad: 27
+    }
+
+    function esMayorDeEdad(persona) {
+
+    	var mensaje //Al usar var JavaScript identifica las variables dentro del cuerpo de la función y la sube al bloque completo de la misma.
+
+        if (persona.edad >= 18) {
+
+            var mensaje = 'Es mayor de edad'//Esta variable puede ser accedida e incluso modificada fuera del bloque if
+        } else {
+
+            var mensaje = 'Es menor de edad'
+        }
+
+        console.log(mensaje)
+    }
+
+    esMayorDeEdad(abner)
+
+    function esMayorDeEdadLet(persona) {
+
+    	let mesaje1
+
+        if (persona.edad >= 18) {
+
+            //let mensaje1 = 'Es mayor de edad'// Solo podría invocarse dentro del bloque del if
+            mensaje = 'Es mayor de edad'
+        } else {
+
+            mensaje = 'Es menor de edad'
+        }
+
+        console.log(mensaje)// Se puede invocar la variable solo dentro del bloque de codigo donde fue creada.
+
+    }
+
+    esMayorDeEdadLet(abner)
+
+    function esMayorDeEdadConst(persona) {
+
+    	let mensaje
+    	const MAYORIA_DE_EDAD = 18// Las variables declaradas con const no se pueden modificar
+
+        if (persona.edad >= MAYORIA_DE_EDAD) {
+
+             mensaje = 'Es mayor de edad'
+        } else {
+
+            mensaje = 'Es menor de edad'
+        }
+
+        console.log(mensaje)
+
+    }
+
+    esMayorDeEdadConst(abner)
+
+    const numeros = [1, 2, 3, 4, 5]//Como sabemos por definición no se puede modificar el valor de una constante pero en el caso del arreglos si es posible agregar nuevos elementos o valores.
+    numeros.push(6)
+
+    for (var i = 0; i < 10; i++) {
+    	console.log(i)
+    }
+
+    console.log(`El ciclo ha culminado con el indice en ${i}`)// Esto es posible dado que i fue declarado con var
+
+    for (let j = 0; j < 10; j++) {
+    	console.log(j)
+    }
+
+    console.log(`El ciclo ha culminado con el indice en ${j}`)// No en el caso de usar let 
+    /*
+		clase_43 - var, let y const las diferencias entre ellos.html:86 Uncaught ReferenceError: j is not defined
+    at clase_43 - var, let y const las diferencias entre ellos.html:86
+    */
+    </script>
+</body>
+
+</html>

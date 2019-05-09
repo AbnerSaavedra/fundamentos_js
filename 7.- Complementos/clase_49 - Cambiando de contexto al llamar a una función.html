@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Clase 49 - Cambiando de contexto al llamar a una función</title>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <script>
+
+    const abner = {
+
+        nombre: 'Abner',
+        apellido: 'Saavedra',
+        edad: 27
+    }
+
+    function saludar(saludo = 'Hola') {
+        
+        console.log(`${saludo} mi nombre es ${this.nombre}`)//Acá this se refiere a window
+    }
+
+    //const saludarAAbner = saludar.bind(abner)//Con este método se enlaza this con el parametro enviado
+
+    // setTimeout(saludar.bind(abner, 'Hola pana'), 1000)//Se ejecuta una función enlazando this con el parametro que recibe.
+
+    /* call y apply ejecutan la función mientras que bind 
+    devuelve una sin ejecutarla*/
+    // saludar.call(abner, 'Hola pana')
+
+    saludar.apply(abner, ['Hola pana'])
+
+    </script>
+</body>
+
+</html>

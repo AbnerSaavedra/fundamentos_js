@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Clase 48 - Estructuras de datos inmutables</title>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <script>
+
+    const abner = {
+
+        nombre: 'Abner',
+        apellido: 'Saavedra',
+        edad: 27
+    }
+
+    const cumpleanios = persona => persona.edad++// Acurre un efecto colateral al modificar cosas fuera de la funcion, en este caso la edad de la persona
+
+    cumpleaniosInmutable = persona =>({// Acá se desglosa el parametro que se recibe haciendo una copía del mismo
+
+        ...persona,
+        edad: persona.edad + 1
+    })
+
+    </script>
+</body>
+
+</html>

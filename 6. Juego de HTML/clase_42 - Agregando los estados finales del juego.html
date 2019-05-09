@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Simon Dice - Agregando los estados finales del juego</title>
+    <style>
+    body {
+        margin: 0;
+        background: #dedede;
+        display: flex;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .gameboard {
+        height: 100vh;
+        width: 100vh;
+        border-radius: 50%;
+        overflow: hidden;
+        margin: 0 auto;
+        max-height: 60vh;
+        max-width: 60vh;
+    }
+
+    .color {
+        width: 50%;
+        height: 50%;
+        display: inline-block;
+    }
+
+    .left {
+        float: left;
+    }
+
+    .right {
+        float: left;
+    }
+
+    .celeste {
+        background: #22a6b3;
+    }
+
+    .celeste.light {
+        background: #7ed6df;
+    }
+
+    .violeta {
+        background: #be2edd;
+    }
+
+    .violeta.light {
+        background: #e056fd;
+    }
+
+    .naranja {
+        background: #f0932b;
+    }
+
+    .naranja.light {
+        background: #ffbe76;
+    }
+
+    .verde {
+        background: #6ab04c;
+    }
+
+    .verde.light {
+        background: #badc58;
+    }
+
+    .btn-start {
+        width: 400px;
+        height: 100px;
+        background: #ecf0f1;
+        color: #2c3e50;
+        font-size: 2.5rem;
+        position: absolute;
+        top: calc(50% - 50px);
+        left: calc(50% - 200px);
+    }
+
+    .hide {
+        display: none;
+    }
+
+    *{
+
+        font-family: 'Arial';
+    }
+    </style>
+</head>
+
+<body>
+    <div class="gameboard">
+        <div id="celeste" class="color celeste left" data-color="celeste"></div><!-- Usamos data-atributo para obtenerlo en el dataset del evento escuchado -->
+        <div id="violeta" class="color violeta right" data-color="violeta"></div>
+        <div id="naranja" class="color naranja left" data-color="naranja"></div>
+        <div id="verde" class="color verde right" data-color="verde"></div>
+        <button id="btnEmpezar" class="btn-start" onclick="empezarJuego()">Empezar a jugar!</button>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+    <script>
+    const celeste = document.getElementById('celeste')
+    const violeta = document.getElementById('violeta')
+    const naranja = document.getElementById('naranja')
+    const verde = document.getElementById('verde')
+    const btnEmpezar = document.getElementById('btnEmpezar')
+    const ULTIMO_NIVEL = 10
+
+    //swal('¡Hola!')// Probando la libreria Sweet alert
+
+    class Juego {
+        constructor() {
+
+            this.inicializar()
+            this.generarSecuencia()
+            setTimeout(() => {
+                this.siguienteNivel()
+            }, 500)
+        }
+
+        inicializar() {
+            this.siguienteNivel = this.siguienteNivel.bind(this)
+            this.elegirColor = this.elegirColor.bind(this) //Acá se mantiene el contexto que queremos que se mantenga this, en el juego.
+            this.toggleBtnEmpezar()
+            this.nivel = 1
+            this.colores = {
+
+                celeste, //Si el valor de la variable es igual a su nombre se puede resumir de esa manera en lugar de celeste:celeste
+                violeta,
+                naranja,
+                verde
+            }
+        }
+
+        toggleBtnEmpezar(){
+
+            if (btnEmpezar.classList.contains('hide')) {
+                btnEmpezar.classList.remove('hide')
+            }else{
+
+                btnEmpezar.classList.add('hide')
+            }
+        }
+
+        generarSecuencia() {
+
+            this.secuencia = new Array(ULTIMO_NIVEL).fill(0).map(n => Math.floor(Math.random() * 4)) //Aunque no exista este atributo en la clase se genera automaticamente al invocarlo, otra cosa importante, la función map no trabaja con arreglos vacios.
+        }
+
+        siguienteNivel() {
+
+            this.subnivel = 0
+            this.iluminarSecuencia()
+            this.agregarEventosClick()
+        }
+
+        transformarNumeroAColor(numero) {
+
+            switch (numero) {
+
+                case 0:
+                    return 'celeste'
+                case 1:
+                    return 'violeta'
+                case 2:
+                    return 'naranja'
+                case 3:
+                    return 'verde'
+            }
+
+        }
+
+        transformarColorANumero(color) {
+
+            switch (color) {
+
+                case 'celeste':
+                    return 0
+                case 'violeta':
+                    return 1
+                case 'naranja':
+                    return 2
+                case 'verde':
+                    return 3
+            }
+
+        }
+
+        iluminarSecuencia() {
+
+            for (var i = 0; i < this.nivel; i++) {
+
+                let color = this.transformarNumeroAColor(this.secuencia[i])
+                //console.table(color)
+
+                setTimeout(() => { //Recordar que por el asincronismo de JavaScript esto se ejecutará luego de que termine de ejcutarse el cicl0 for y como var define variables globales se quedará con el último valor de color en el ciclo. Por lo que es recomendable usar const o let dentro de ciclos.
+
+                    //console.table(color)
+                    this.iluminarColor(color)
+                }, 1000 * i)
+            }
+        }
+
+        iluminarColor(color) {
+
+            this.colores[color].classList.add('light')
+            setTimeout(() => this.apagarColor(color), 350)
+        }
+
+        apagarColor(color) {
+
+            this.colores[color].classList.remove('light')
+        }
+
+        agregarEventosClick() {
+
+            this.colores.celeste.addEventListener('click', this.elegirColor) //Por lo que hay que especificarle a JavaScript quien es this cuando este pierda el contexto. Ver el constructor de juego
+            this.colores.verde.addEventListener('click', this.elegirColor) //Por lo que hay que especificarle a JavaScript quien es this cuando este pierda el contexto. Ver el constructor de juego
+            this.colores.violeta.addEventListener('click', this.elegirColor) //Por lo que hay que especificarle a JavaScript quien es this cuando este pierda el contexto. Ver el constructor de juego
+            this.colores.naranja.addEventListener('click', this.elegirColor) //Por lo que hay que especificarle a JavaScript quien es this cuando este pierda el contexto. Ver el constructor de juego
+        }
+
+        eliminarEventosClick() {
+
+            this.colores.celeste.removeEventListener('click', this.elegirColor) //Por lo que hay que especificarle a JavaScript quien es this cuando este pierda el contexto. Ver el constructor de juego
+            this.colores.verde.removeEventListener('click', this.elegirColor) //Por lo que hay que especificarle a JavaScript quien es this cuando este pierda el contexto. Ver el constructor de juego
+            this.colores.violeta.removeEventListener('click', this.elegirColor) //Por lo que hay que especificarle a JavaScript quien es this cuando este pierda el contexto. Ver el constructor de juego
+            this.colores.naranja.removeEventListener('click', this.elegirColor) //Por lo que hay que especificarle a JavaScript quien es this cuando este pierda el contexto. Ver el constructor de juego
+        }
+
+        elegirColor(ev) {
+
+            //console.log(this)// Tener en cuenta en todo momento en quien se convierte this
+            //console.log(ev)//Notamos que unos de los atributos del evento es data-color (definido en cada botón) para saber que color ha pulsado el usuario
+
+            const nombreColor = ev.target.dataset.color
+            const numeroColor = this.transformarColorANumero(nombreColor) //Obtenemos el nombre del color pero necesitamos el numero de este para verificarlo en la secuencia
+            this.iluminarColor(nombreColor)
+            if (numeroColor === this.secuencia[this.subnivel]) {
+
+                this.subnivel++
+
+                if (this.subnivel === this.nivel) {
+
+                    this.nivel++
+
+                    this.eliminarEventosClick()
+                    if (this.nivel === (ULTIMO_NIVEL + 1)) {
+
+                        //¡Ganó!
+                        this.ganoElJuego()
+                    } else {
+
+                        setTimeout(this.siguienteNivel, 1500) //Acá no invocamos la función, solo estamos diciendo el nombre de la función que hay que ejecutar. 
+                        /* 
+                          Recordemos también que la función setTimeout delega dentro del navegador la ejecución de una función por lo que cambia el contexto de this siendo window el obejeto general
+                         */
+                    }
+                }
+            } else {
+
+                //¡Perdió!
+                this.perdioElJuego()
+            }
+        }
+
+        ganoElJuego(){
+
+            swal('El juego dice:', '¡Felicitaciones, ganaste el juego!', 'success')// Luego de que el usuario de clic a la ventana de aviso
+            .then( () => {
+                this.inicializar()
+            })
+        }
+
+        perdioElJuego(){
+
+            swal('El juego dice:', 'Lo lamentamos, perdiste el juego :( Pero sigue intentando', 'error')// Luego de que el usuario de clic a la ventana de aviso
+            .then( () => {
+                this.eliminarEventosClick()
+                this.inicializar()
+            })
+        }
+    }
+
+    function empezarJuego() {
+        //alert('El juego va a comenzar')
+        window.juego = new Juego() // Recordemos que en el navegador el objeto global es window
+    }
+    </script>
+</body>
+
+</html>
